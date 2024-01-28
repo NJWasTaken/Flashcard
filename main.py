@@ -9,6 +9,7 @@ pygame.init()
 df = pd.read_csv('database.txt')
 s = open('score.txt')
 hs = int(s.readline())
+hs_c = hs
 s.close()
 q = df['Question']
 a = df['Answer']
@@ -42,18 +43,19 @@ score = 0
 while True:
     screen.fill(white)
     screen.blit(bg,(0,0))
+    back = font.render("< Back", True, white)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            if flash == True:
-                s.write(str(hs))
-                pygame.quit()
-            else:
-                pygame.quit()
+            s.write(str(hs))
+            pygame.quit()
+
 
         elif event.type == pygame.KEYDOWN:
             if flash == True: 
                 if event.key == pygame.K_RETURN:
                     if user_input == correct_text:
+                        if score == hs:
+                            hs+=1
                         score += 1
                         r = random.randint(0,(len(q)-1))
                         question = q[r]
@@ -66,9 +68,6 @@ while True:
                 elif event.key == pygame.K_BACKSPACE:
                     user_input = user_input[:-1]
                 elif event.key == pygame.K_ESCAPE:
-                    if score>hs:
-                        hs = score
-                        s.write(str(hs))
                     menu = True
                     flash = False
                     score = 0
@@ -82,7 +81,33 @@ while True:
                     entry = True
                     menu = False
 
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            x, y = event.pos
+            if menu:
+                if x in range(355,445) and y in range(240,275):
+                    menu = False
+                    flash = True
+                elif x in range(325,485) and y in range(295,325):
+                    menu = False
+                    entry = True
+                elif x in range(295,510) and y in range(380,420):
+                    hs = 0
+            elif flash:
+                if x in range(40,100) and y in range(40,80):
+                    flash = False
+                    menu = True
 
+    if menu:
+        title = font.render("FlashCard", True, (100,100,255))
+        screen.blit(title, (width//2 - title.get_width()//2, height//2 - 170))
+
+        op1 = font.render("Start", True, white)
+        screen.blit(op1, (width//2 - op1.get_width()//2, height//2 - 50))
+        op2 = font.render("Entry Mode", True, white)
+        screen.blit(op2, (width//2 - op2.get_width()//2, height//2 ))
+
+        res_title = font.render("Reset High Score", True, white)
+        screen.blit(res_title, (width//2 - res_title.get_width()//2, height//2 + 90))
 
     if entry:
         text_surface = font.render(user_input, True, white)
@@ -98,6 +123,7 @@ while True:
         screen.blit(text_surface, (width//2 - text_surface.get_width()//2, height//2 - 15))
         pygame.draw.rect(screen, white, (width//2 - text_surface.get_width()//2 -15, height//2 - 30, text_surface.get_width()+30, 60), 1)
 
+        screen.blit(back, (50,50))
   
         question_text = font.render(question, True, white)
         screen.blit(question_text, (width//2 -   question_text.get_width()//2, height//2 - 60))
