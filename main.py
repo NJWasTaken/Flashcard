@@ -2,6 +2,18 @@ import pygame
 import os
 import pandas as pd
 import random
+import getpass
+
+os.environ["GOOGLE_API_KEY"] = '' #Google api key goes here
+
+with open('database.txt') as f:
+    lis = f.readlines()
+lis = lis[1:]
+
+from langchain_google_genai import ChatGoogleGenerativeAI
+llm = ChatGoogleGenerativeAI(model="gemini-pro")
+
+
 
 # Initialize pygame
 pygame.init()
@@ -41,6 +53,10 @@ score = 0
 
 # Main game loop
 while True:
+    prompt = "You are an examiner and are an expert at exam correction. Here is a list of questions and answers: "+str(lis)+" Use this list as a database to check whether an answer is correct or not. You should only reply with \
+    'Correct' or 'Wrong' as your response to my answer. You should say that my answer is correct even if my answer doesnt perfectly match that in the database, but is close enough to mean the same thing. \
+    Example: Q: Who painted the Mona Lisa?, A: da Vinci, Database Answer: Leonardo da Vinci. You may still respond with correct for this. Evaluate my answer accurately and strictly. Here is the question I must answer:"+str(q[r])+" Here is my answer:"+str(user_input)+". Respond with Correct or Wrong."
+    
     screen.fill(white)
     screen.blit(bg,(0,0))
     back = font.render("< Back", True, white)
@@ -49,22 +65,29 @@ while True:
             s.write(str(hs))
             pygame.quit()
 
-
         elif event.type == pygame.KEYDOWN:
             if flash == True: 
                 if event.key == pygame.K_RETURN:
-                    if user_input == correct_text:
-                        if score == hs:
-                            hs+=1
-                        score += 1
-                        r = random.randint(0,(len(q)-1))
-                        question = q[r]
-                        user_input = ""
-                        correct_text = a[r]
-                    else:
-                        user_input = ''
-                        score -= score
+                    try: 
+                        result = llm.invoke(prompt)
 
+                        if result.content == "Correct":
+                            if score == hs:
+                                hs+=1
+                            score += 1
+                            r = random.randint(0,(len(q)-1))
+                            question = q[r]
+                            user_input = ""
+                            correct_text = a[r]
+
+                        elif result.content == "Wrong":
+                            user_input = ''
+                            score -= score
+                    except:
+                        user_input = ''
+                    else:
+                        print(result.content)
+                
                 elif event.key == pygame.K_BACKSPACE:
                     user_input = user_input[:-1]
                 elif event.key == pygame.K_ESCAPE:

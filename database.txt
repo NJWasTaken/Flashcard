@@ -1,4 +1,22 @@
 Question,Answer
-wubba lubba dub that you?,woah you go big guy
-lmao,ok
-ok,lmao
+What is the capital of France?,Paris
+Who wrote "Romeo and Juliet"?,William Shakespeare
+What is the largest mammal?,Blue whale
+How many continents are there in the world?,7
+What is the chemical symbol for gold?,Au
+Who painted the Mona Lisa?,Leonardo da Vinci
+What is the tallest mountain in the world?,Mount Everest
+What year did the Titanic sink?,1912
+Who was the first president of the United States?,George Washington
+What is the currency of Japan?,Japanese yen
+How many planets are in our solar system?,8
+What is the national flower of Japan?,Cherry blossom
+Who is known as the "Father of Computers"?,Charles Babbage
+What is the square root of 64?,8
+What is the tallest animal on Earth?,Giraffe
+Who discovered penicillin?,Alexander Fleming
+What is the longest river in the world?,Nile River
+What is the capital of Australia?,Canberra
+Who wrote the play "Hamlet"?,William Shakespeare
+What is the largest ocean on Earth?,Pacific Ocean
+What is the name of the god of eating?,Kraton
