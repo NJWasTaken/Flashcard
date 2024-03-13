@@ -68,25 +68,20 @@ while True:
         elif event.type == pygame.KEYDOWN:
             if flash == True: 
                 if event.key == pygame.K_RETURN:
-                    try: 
-                        result = llm.invoke(prompt)
+                    result = llm.invoke(prompt)
 
-                        if result.content == "Correct":
-                            if score == hs:
-                                hs+=1
-                            score += 1
-                            r = random.randint(0,(len(q)-1))
-                            question = q[r]
-                            user_input = ""
-                            correct_text = a[r]
+                    if result.content == "Correct":
+                        if score == hs:
+                            hs+=1
+                        score += 1
+                        r = random.randint(0,(len(q)-1))
+                        question = q[r]
+                        user_input = ""
+                        correct_text = a[r]
 
-                        elif result.content == "Wrong":
-                            user_input = ''
-                            score -= score
-                    except:
+                    elif result.content == "Wrong":
                         user_input = ''
-                    else:
-                        print(result.content)
+                        score -= score
                 
                 elif event.key == pygame.K_BACKSPACE:
                     user_input = user_input[:-1]
